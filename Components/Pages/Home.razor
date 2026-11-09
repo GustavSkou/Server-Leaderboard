@@ -1,0 +1,101 @@
+@page "/"
+@using Entities
+@rendermode InteractiveServer
+
+<PageTitle>Server Leaderboard</PageTitle>
+
+<div class="sky-scene">
+    <!-- Stars Layer -->
+    <div class="stars-layer">
+        @foreach (var star in Stars)
+        {
+            <img src="@star.ImagePath"
+                 alt=""
+                 class="star"
+                 style="top: @(star.Top)%; left: @(star.Left)%; width: @(star.Size)px; height: @(star.Size)px; animation-duration: @(star.Duration)s; animation-delay: @(star.Delay)s;" />
+        }
+    </div>
+
+    <!-- Moon -->
+    <img src="images/moon.png" alt="Moon" class="moon" />
+
+    <!-- Leaderboard in the middle -->
+    <div class="leaderboard-wrapper">
+        <div class="leaderboard-card">
+            <h1 class="leaderboard-title">LEADERBOARD</h1>
+            <ol class="leaderboard-list">
+                @for (int i = 0; i < Players.Count; i++)
+                {
+                    var player = Players[i];
+                    var rank = i + 1;
+                    var rankClass = rank switch
+                    {
+                        1 => "rank-gold",
+                        2 => "rank-silver",
+                        3 => "rank-bronze",
+                        _ => "rank-standard"
+                    };
+
+                    <li class="leaderboard-item @rankClass">
+                        <span class="rank-badge">#@rank</span>
+                        <span class="player-name">@player.Name</span>
+                        <span class="player-score">@player.Score</span>
+                    </li>
+                }
+            </ol>
+        </div>
+    </div>
+
+    <!-- House in bottom-left -->
+    <img src="images/house.png" alt="Pixel House" class="house" />
+</div>
+
+@code {
+    private record StarModel(string ImagePath, string Top, string Left, int Size, string Duration, string Delay);
+
+    private List<StarModel> Stars { get; set; } = new();
+
+    private List<PlayerEntry> Players { get; set; } = new() {
+        new("David", 0),
+        new("Malte", 0),
+        new("Mathias", 0),
+        new("Anders", 0),
+        new("Benjamin", 0),
+        new("Casper", 0),
+        new("Oliver", 0),
+        new("Pelle", 0)
+    };
+
+    protected override void OnInitialized()
+    {
+        Players.Sort();
+        var rng = new Random();
+        var starCoords = new (double Top, double Left)[]
+        {
+            (6, 12), (9, 25), (4, 41), (7, 49), (12, 37), (16, 10), (19, 17), (14, 29),
+            (18, 44), (15, 53), (24, 14), (27, 22), (22, 34), (26, 40), (31, 11), (34, 19),
+            (29, 28), (33, 36), (30, 48), (36, 56), (38, 63), (35, 72), (39, 86), (42, 16),
+            (45, 24), (41, 33), (44, 43), (47, 52), (43, 60), (48, 69), (46, 78), (44, 88),
+            (52, 31), (55, 39), (53, 47), (57, 55), (54, 65), (58, 75), (56, 84), (63, 46),
+            (66, 54), (62, 62), (65, 71), (68, 80), (64, 90), (72, 49), (75, 58), (73, 68),
+            (77, 76), (74, 87), (82, 56), (85, 66), (81, 74), (86, 82), (89, 63), (91, 78)
+        };
+
+        foreach (var (top, left) in starCoords)
+        {
+            var img = rng.Next(2) == 0 ? "images/star1.png" : "images/star2.png";
+            var size = rng.Next(6, 11);
+            var duration = (1.2 + rng.NextDouble() * 3.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+            var delay = (rng.NextDouble() * 5.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+
+            Stars.Add(new StarModel(
+                img,
+                top.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture),
+                left.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture),
+                size,
+                duration,
+                delay
+            ));
+        }
+    }
+}

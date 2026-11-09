@@ -1,0 +1,209 @@
+.sky-scene {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: #140B28;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
+    user-select: none;
+}
+
+.stars-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.star {
+    position: absolute;
+    image-rendering: pixelated;
+    animation-name: star-blink;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes star-blink {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.1;
+        transform: scale(0.65);
+    }
+}
+
+.moon {
+    position: absolute;
+    top: 8%;
+    right: 10%;
+    width: 10%;
+    height: auto;
+    image-rendering: pixelated;
+    z-index: 2;
+    pointer-events: none;
+    animation: moon-sway 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes moon-sway {
+    0% {
+        transform: translateX(-8px);
+    }
+    100% {
+        transform: translateX(8px);
+    }
+}
+
+.house {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 35%;
+    height: auto;
+    image-rendering: pixelated;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.leaderboard-wrapper {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 1rem;
+}
+
+.leaderboard-card {
+    background: rgba(20, 11, 40, 0);
+    border: 2px solid rgba(255, 255, 255, 0);
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    width: min(440px, 90vw);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0);
+    backdrop-filter: blur(4px);
+}
+
+.leaderboard-title {
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.2em;
+    margin: 0 0 1.1rem 0;
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
+}
+
+.leaderboard-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.55rem 0.9rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1.05rem;
+    font-weight: 700;
+    transition: transform 0.15s ease;
+}
+
+.leaderboard-item:hover {
+    transform: translateX(4px);
+}
+
+.rank-badge {
+    width: 2.2rem;
+    text-align: left;
+    opacity: 0.9;
+}
+
+.player-name {
+    flex: 1;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.player-score {
+    margin-left: 1rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* 1st Place - Gold */
+.rank-gold {
+    color: #FFD700;
+    background: rgba(255, 215, 0, 0.14);
+    border-color: rgba(255, 215, 0, 0.55);
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.45);
+    
+    height: 60px;
+    font-size: 1.3rem;
+}
+
+/* 2nd Place - Silver */
+.rank-silver {
+    color: #C0C0C0;
+    background: rgba(192, 192, 192, 0.14);
+    border-color: rgba(192, 192, 192, 0.55);
+    text-shadow: 0 0 8px rgba(192, 192, 192, 0.4);
+
+    height: 50px;
+    font-size: 1.1rem;
+}
+
+/* 3rd Place - Bronze */
+.rank-bronze {
+    color: #CD7F32;
+    background: rgba(205, 127, 50, 0.14);
+    border-color: rgba(205, 127, 50, 0.55);
+    text-shadow: 0 0 8px rgba(205, 127, 50, 0.4);
+
+    height: 45px;
+    font-size: 1.05rem;
+}
+
+/* 4th - 8th Place */
+.rank-standard {
+    color: #E2DCF0;
+}
+
+/* Responsive mobile view matching right panel in Figma PNG */
+@media (max-width: 600px) {
+    .moon {
+        top: 3%;
+        right: 6%;
+        width: 75px;
+    }
+
+    .house {
+        width: 100vw;
+    }
+
+    .leaderboard-card {
+        padding: 1rem 1.2rem;
+    }
+
+    .leaderboard-title {
+        font-size: 1.25rem;
+    }
+
+    .leaderboard-item {
+        font-size: 0.95rem;
+        padding: 0.45rem 0.75rem;
+    }
+}
